@@ -1,0 +1,68 @@
+.awards-page .header {
+  background-color: #EEF5FF;
+  padding: 80px 0 30px 0;
+  color: var(--color-blue);
+  text-align: center;
+}
+.awards-page .header .title {
+  margin-bottom: 16px;
+}
+.awards-page .first {
+  background-color: #F6F7F9;
+  padding: 55px 0;
+}
+.awards-page .first .container {
+  max-width: 1470px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.awards-page .first .container .slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.awards-page .first .container .slider .swiper-wrapper {
+  margin-bottom: 50px;
+}
+.awards-page .first .container .slider .swiper-wrapper .swiper-slide img {
+  width: 100%;
+}
+.awards-page .first .container .slider .pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 16px;
+}
+.awards-page .first .container .slider .pagination .swiper-pagination-bullet {
+  background-color: #999;
+  width: 10px;
+  height: 10px;
+  transition: 0.25s;
+}
+.awards-page .first .container .slider .pagination .swiper-pagination-bullet-active {
+  background-color: var(--color-blue);
+  width: 16px;
+  height: 16px;
+}
+.awards-page .bottom {
+  padding: 65px 0;
+}
+@media screen and (max-width: 480px) {
+  .awards-page .header .title {
+    font-size: 28px;
+  }
+  .awards-page .header .description {
+    font-size: 16px;
+  }
+  .awards-page .first {
+    padding: 35px 0;
+  }
+  .awards-page .first .container .slider .swiper-wrapper {
+    margin: 0;
+  }
+  .awards-page .first .container .slider .pagination {
+    display: none;
+  }
+}

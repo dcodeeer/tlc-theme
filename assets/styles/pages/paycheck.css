@@ -1,0 +1,116 @@
+.paycheck-page {
+  background-color: #EEF5FF;
+}
+.paycheck-page .header .container {
+  color: var(--color-blue);
+  text-align: center;
+  padding: 70px 0 240px 0;
+}
+.paycheck-page .header .container .title {
+  margin-bottom: 6px;
+}
+.paycheck-page .first {
+  background-color: #fff;
+  padding: 50px 0;
+}
+.paycheck-page .first .blue {
+  color: var(--color-blue);
+}
+.paycheck-page .first a {
+  text-decoration: underline;
+}
+.paycheck-page .first .container {
+  display: flex;
+  flex-direction: column;
+}
+.paycheck-page .first .container .video {
+  background-color: var(--color-gray);
+  max-width: 890px;
+  width: 100%;
+  aspect-ratio: 1.7777777778;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  margin-top: -240px;
+  position: relative;
+}
+.paycheck-page .first .container .video iframe {
+  width: 100%;
+  aspect-ratio: 1.7777777778;
+}
+.paycheck-page .first .container .list {
+  width: 100%;
+  overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-bottom: 1px solid #325C9B;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+.paycheck-page .first .container .list .item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 24px;
+}
+.paycheck-page .first .container .list .item .number {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-blue);
+  border-radius: 100%;
+  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.paycheck-page .first .container .list .item .content {
+  display: inline-block;
+  word-break: break-word;
+}
+.paycheck-page .first .container .list .item .content ol {
+  margin-left: 24px;
+}
+.paycheck-page .first .container .bottom-text {
+  margin-bottom: 24px;
+}
+.paycheck-page .first .container .bottom-block {
+  display: inline-block;
+  word-break: break-word;
+}
+@media screen and (max-width: 480px) {
+  .paycheck-page .header .container {
+    padding: 65px 0;
+    text-align: start;
+  }
+  .paycheck-page .header .container .title {
+    font-size: 28px;
+    text-align: center;
+  }
+  .paycheck-page .header .container .description {
+    font-size: 16px;
+  }
+  .paycheck-page .first .container .video {
+    margin-top: -90px;
+    margin-bottom: 40px;
+  }
+  .paycheck-page .first .container .list .item {
+    font-size: 16px;
+    grid-template-columns: 32px 1fr;
+    gap: 8px;
+  }
+  .paycheck-page .first .container .list .item .number {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .paycheck-page .first .container .bottom-text {
+    font-size: 16px;
+  }
+  .paycheck-page .first .container .bottom-block .title {
+    font-size: 28px;
+  }
+  .paycheck-page .first .container .bottom-block a {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,104 @@
+.global-search-form {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+.global-search-form input {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px 0 0 10px;
+  padding: 15px 30px;
+  height: 100%;
+}
+.global-search-form button {
+  width: 60px;
+  height: 60px;
+  background-color: #E4E3E3;
+  border-radius: 0 10px 10px 0;
+}
+.global-search-form button:active {
+  background-color: var(--color-blue);
+  color: #fff;
+}
+.jobs-page .first {
+  background-color: #EEF5FF;
+}
+.jobs-page .first .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  height: 400px;
+}
+.jobs-page .first .container .title {
+  color: var(--color-blue);
+}
+@media screen and (max-width: 480px) {
+  .jobs-page .first .container {
+    height: 250px;
+  }
+  .jobs-page .first .title {
+    font-size: 28px;
+  }
+}
+.jobs-page .second {
+  padding: 32px 0;
+}
+.jobs-page .second .letters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 48px);
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.jobs-page .second .letters a {
+  background-color: #fff;
+  border-radius: 100%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.35s;
+}
+.jobs-page .second .letters a:hover {
+  background-color: #EEF5FF;
+}
+.jobs-page .second .list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.jobs-page .second .list .item {
+  background-color: #F6F7F9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+.jobs-page .second .list .link {
+  display: flex;
+  align-items: center;
+  transition: 0.25s;
+}
+.jobs-page .second .list .link:hover {
+  color: var(--color-blue);
+}
+@media screen and (max-width: 480px) {
+  .jobs-page .second .letters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 24px);
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .jobs-page .second .letters a {
+    width: 24px;
+    height: 24px;
+  }
+}
+@media screen and (max-width: 712px) {
+  .jobs-page .second .list {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,32 @@
+.not-found-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 40px 0;
+}
+.not-found-page .blue {
+  color: var(--color-blue);
+}
+.not-found-page .left .segment {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+.not-found-page .left .global-search-form input {
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.03), 0px 1.224px 11.423px 0px rgba(0, 0, 0, 0.03), 0px 5.304px 21.215px 0px rgba(0, 0, 0, 0.02), 0px 11.831px 29.374px 0px rgba(0, 0, 0, 0), 0px 21.215px 34.27px 0px rgba(0, 0, 0, 0.01), 0px 33.658px 37.534px 0px rgba(0, 0, 0, 0.06);
+  border: 1px solid #D3D3D3;
+  border-right: none;
+}
+.not-found-page img {
+  width: 100%;
+  height: auto;
+}
+
+
+@media screen and (max-width: 912px) {
+  .not-found-page {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 40px 0;
+  }
+}

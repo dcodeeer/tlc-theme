@@ -1,0 +1,214 @@
+.contact-page {
+  display: flex;
+  flex-direction: column;
+}
+.contact-page .header {
+  height: 500px;
+  position: relative;
+}
+.contact-page .header img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contact-page .content {
+  padding: 40px 15px;
+  position: relative;
+}
+.contact-page .content .form {
+  max-width: 550px;
+  width: 100%;
+  position: absolute;
+  top: -240px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff;
+  padding: 35px;
+  margin-bottom: 56px;
+  border-radius: 18px;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.05), 0px 1.22393px 11.42331px 0px rgba(0, 0, 0, 0.05), 0px 5.30368px 21.21471px 0px rgba(0, 0, 0, 0.04), 0px 11.83128px 29.37422px 0px rgba(0, 0, 0, 0.03), 0px 21.21471px 34.26992px 0px rgba(0, 0, 0, 0.01), 0px 33.65796px 37.53373px 0px rgba(0, 0, 0, 0);
+}
+.contact-page .content .form .title {
+  font-size: 32px;
+  color: var(--color-gray);
+}
+.contact-page .content .form .description {
+  font-family: 'Mulish';
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+.contact-page .content .form .item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contact-page .content .form .item .error {
+  border: 1px solid var(--color-red);
+}
+.contact-page .content .form .item .error-message {
+  font-family: 'Mulish', sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+
+  display: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-red);
+}
+.contact-page .content .form .item .error-show {
+  display: flex;
+}
+.contact-page .content .form .item input {
+  border-radius: 58px;
+  border: 1px solid rgba(114, 127, 153, 0.60);
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.contact-page .content .form .item .dropdown input {
+  border-radius: 0;
+  border: none;
+  padding: 0;
+}
+
+
+.contact-page .content .form .bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.contact-page .content .form .bottom button {
+  background-color: var(--color-green);
+  padding: 12px 60px;
+  border-radius: 27px;
+  color: #fff;
+}
+.contact-page .content .form .bottom p {
+  font-family: 'Mulish';
+  font-weight: 400;
+}
+.contact-page .content .box {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.contact-page .content .title {
+  font-size: 32px;
+  line-height: normal;
+  margin-bottom: 10px;
+  color: var(--color-blue);
+}
+.contact-page .content .mini-title {
+  font-size: 20px;
+  line-height: normal;
+  color: var(--color-blue);
+}
+.contact-page .content .info {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.contact-page .content .info .text {
+  font-family: 'Mulish';
+  font-weight: 400;
+  line-height: 26px;
+}
+.contact-page .content .offices {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 27px;
+}
+.contact-page .content .offices .mini-title {
+  margin-bottom: 8px;
+}
+.contact-page .content .offices .address {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.contact-page .content .offices .address .icon {
+  height: 24px;
+  color: var(--color-blue);
+}
+.contact-page .content .offices .address p {
+  font-family: 'Mulish';
+  font-weight: 400;
+}
+.contact-page .content .socials {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.contact-page .content .socials .mini-title {
+  margin-right: 5px;
+}
+.contact-page .content .socials .link {
+  display: flex;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+}
+.contact-page .markets {
+  margin: 25px 0;
+}
+.contact-page .content .description {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+}
+.contact-page .content .description p {
+  font-family: 'Mulish';
+  font-weight: 400;
+  line-height: 20px;
+}
+.contact-page .content .description .hidden-text {
+  visibility: hidden;
+  max-height: 0;
+  transition: 0.75s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-page .content .description .show-text {
+  visibility: visible;
+  max-height: 1000px;
+}
+.contact-page .content .description button {
+  display: flex;
+  align-items: center;
+  color: var(--color-blue);
+}
+.contact-page .content .description .show-less {
+  display: none;
+}
+@media screen and (max-width: 1100px) {
+  .contact-page .content .form {
+    position: relative;
+    left: 0;
+    margin: 0 auto;
+  }
+  .contact-page .content .box {
+    margin-top: -200px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .contact-page .content .form .bottom {
+    flex-direction: column;
+    align-items: start;
+    gap: 15px;
+  }
+  .contact-page .content .info {
+    font-size: 18px;
+  }
+}
+

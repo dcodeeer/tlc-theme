@@ -1,0 +1,171 @@
+.register-page .first {
+  display: flex;
+  align-items: center;
+  height: 500px;
+  position: relative;
+}
+.register-page .first .H0 {
+  max-width: 1180px;
+  color: #fff;
+  position: relative;
+  z-index: 9;
+}
+.register-page .first .pagination {
+  position: absolute;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  bottom: 150px;
+}
+.register-page .first .pagination .swiper-pagination-bullet {
+  background-color: #fff;
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+  transition: 0.25s;
+}
+.register-page .first .pagination .swiper-pagination-bullet-active {
+  width: 16px;
+  height: 16px;
+  opacity: 1;
+}
+.register-page .first .slider {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  position: absolute;
+}
+.register-page .first .slider .swiper-slide img {
+  width: 100%;
+  height: 624px;
+  object-fit: cover;
+}
+@media screen and (max-width: 480px) {
+  .register-page .first .H0 {
+    top: -100px;
+    font-size: 28px;
+  }
+}
+.register-page .second {
+  padding-bottom: 65px;
+}
+.register-page .second .container {
+  background-color: #fff;
+  margin-top: -100px;
+  position: relative;
+  z-index: 9;
+  padding: 60px 80px;
+  max-width: 1180px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.03), 0px 1.224px 11.423px 0px rgba(0, 0, 0, 0.03), 0px 5.304px 21.215px 0px rgba(0, 0, 0, 0.02), 0px 11.831px 29.374px 0px rgba(0, 0, 0, 0.02), 0px 21.215px 34.27px 0px rgba(0, 0, 0, 0.01), 0px 33.658px 37.534px 0px rgba(0, 0, 0, 0);
+}
+.register-page .second .container .H3 {
+  margin-bottom: 15px;
+}
+.register-page .second .container .body-2 {
+  margin-bottom: 50px;
+}
+.register-page .second .container form .input-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.register-page .second .container form .input-box .item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.register-page .second .container form .input-box .item .error-message {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-red);
+}
+.register-page .second .container form .input-box .item .error-show {
+  display: flex;
+}
+.register-page .second .container form .input-box .item input {
+  border-radius: 58px;
+  border: 1px solid rgba(114, 127, 153, 0.6);
+  padding: 10px 20px;
+  font-size: 16px;
+}
+.register-page .second .container form .input-box .item .dropdown input {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+.register-page .second .container form .agreement {
+  display: flex;
+  gap: 8px;
+  opacity: 0.7;
+  margin-bottom: 40px;
+}
+.register-page .second .container form .agreement input {
+  display: none;
+}
+.register-page .second .container form .agreement label {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  pointer-events: none;
+  position: relative;
+  font-family: 'Mulish', sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+}
+.register-page .second .container form .agreement label::before {
+  content:'';
+  appearance: none;
+  background-color: transparent;
+  border: 3px solid var(--color-gray);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 9px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+  user-select: none;
+  pointer-events: all;
+}
+.register-page .second .container form .agreement input:checked + label::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  width: 6px;
+  height: 10px;
+  border: solid var(--color-gray);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  user-select: none;
+}
+.register-page .second .container form .button-3 {
+  margin: 0 auto;
+}
+.register-page .second .container form .bottom .H5 a {
+  color: var(--color-green);
+}
+@media screen and (max-width: 712px) {
+  .register-page .second .container {
+    padding: 30px;
+  }
+  .register-page .second .container .H3 {
+    font-size: 20px;
+  }
+  .register-page .second .container .body-2 {
+    margin-bottom: 30px;
+  }
+  .register-page .second .container form .bottom {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

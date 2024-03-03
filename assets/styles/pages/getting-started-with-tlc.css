@@ -1,0 +1,129 @@
+.getting-started-with-tlc .getting-started-with-tlc-first {
+  width: 100%;
+  height: 500px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-first img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media screen and (max-width: 480px) {
+  .getting-started-with-tlc .getting-started-with-tlc-first {
+    height: 400px;
+  }
+}
+.getting-started-with-tlc .getting-started-with-tlc-second {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-second .title {
+  color: var(--color-blue);
+}
+@media screen and (max-width: 480px) {
+  .getting-started-with-tlc .getting-started-with-tlc-second .title {
+    font-size: 20px;
+  }
+}
+.getting-started-with-tlc .getting-started-with-tlc-third {
+  background-color: #EEF5FF;
+  padding: 60px 0;
+}
+.getting-started-with-tlc .getting-started-with-tlc-third .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+  gap: 30px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-third .container .block {
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 34px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-third .container .block .top {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-third .container .block .top .number {
+  background-color: var(--color-green);
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.getting-started-with-tlc .getting-started-with-tlc-third .container .block .list {
+  margin-left: 16px;
+}
+@media screen and (max-width: 480px) {
+  .getting-started-with-tlc .getting-started-with-tlc-third {
+    padding: 30px 0;
+  }
+}
+.getting-started-with-tlc .getting-started-with-tlc-fourth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 65px 0;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fourth .blue {
+  color: var(--color-blue);
+}
+.getting-started-with-tlc .getting-started-with-tlc-fourth .content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fourth img {
+  width: 100%;
+  height: 180px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+@media screen and (max-width: 912px) {
+  .getting-started-with-tlc .getting-started-with-tlc-fourth {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 40px 0;
+  }
+}
+.getting-started-with-tlc .getting-started-with-tlc-fifth {
+  background-color: #F6F7F9;
+  padding: 100px 0;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fifth .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fifth .container .block {
+  background-color: #fff;
+  border: 1px solid #E4E3E3;
+  border-radius: 16px;
+  padding: 40px 25px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fifth .container .block .title {
+  color: var(--color-blue);
+  margin-bottom: 16px;
+}
+.getting-started-with-tlc .getting-started-with-tlc-fifth .container .block ul {
+  margin-left: 16px;
+}
+@media screen and (max-width: 712px) {
+  .getting-started-with-tlc .getting-started-with-tlc-fifth {
+    padding: 40px 0;
+  }
+  .getting-started-with-tlc .getting-started-with-tlc-fifth .container {
+    grid-template-columns: 1fr;
+  }
+}
+.getting-started-with-tlc .sixth {
+  padding: 65px 0;
+}

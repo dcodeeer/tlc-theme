@@ -1,0 +1,194 @@
+.why-tlc-page .header {
+  width: 100%;
+  height: 500px;
+}
+.why-tlc-page .header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.why-tlc-page .first {
+  padding: 40px 0 25px 0;
+  text-align: center;
+}
+.why-tlc-page .first .title {
+  color: var(--color-blue);
+  margin-bottom: 12px;
+}
+.why-tlc-page .second {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 70px 0;
+}
+.why-tlc-page .second img {
+  max-width: 660px;
+  width: 100%;
+}
+.why-tlc-page .second .right .title {
+  color: var(--color-blue);
+  margin-bottom: 14px;
+}
+.why-tlc-page .second .right .list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.why-tlc-page .third {
+  background-color: #EEF5FF;
+  padding: 60px 0 40px 0;
+}
+.why-tlc-page .third .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 64px;
+}
+.why-tlc-page .third .container img {
+  max-width: 660px;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+.why-tlc-page .third .container .left .title {
+  color: var(--color-blue);
+  margin-bottom: 32px;
+}
+.why-tlc-page .third .container .left .list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.why-tlc-page .third .bottom {
+  text-align: center;
+  color: var(--color-blue);
+  display: block;
+}
+.why-tlc-page .fourth {
+  background-color: #fff;
+  padding: 60px 0;
+}
+@media screen and (max-width: 912px) {
+  .why-tlc-page .header {
+    height: 340px;
+  }
+  .why-tlc-page .first .title {
+    font-size: 28px;
+  }
+  .why-tlc-page .first .mini-title {
+    font-size: 16px;
+    line-height: 21px;
+  }
+  .why-tlc-page .second {
+    grid-template-columns: 1fr;
+    padding: 0 0 40px 0;
+  }
+  .why-tlc-page .second img {
+    margin: 0 auto;
+  }
+  .why-tlc-page .third {
+    padding: 32px 0;
+  }
+  .why-tlc-page .third .container {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 24px;
+  }
+  .why-tlc-page .third .container img {
+    margin: 0 auto;
+  }
+  .why-tlc-page .fourth {
+    background-color: #fff;
+    padding: 40px 0;
+  }
+}
+
+
+.why-tlc-page .fifth {
+  background-color: #EEF5FF;
+  padding: 120px 0;
+  margin-top: 100px;
+}
+.why-tlc-page .fifth .container {
+  display: grid;
+  grid-template-columns: 28fr 72fr;
+  gap: 40px;
+}
+.why-tlc-page .fifth .container .left {
+  color: var(--color-blue);
+}
+.why-tlc-page .fifth .container .left .top {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #90C3FF;
+}
+.why-tlc-page .fifth .container .right {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.why-tlc-page .fifth .container .right .slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.why-tlc-page .fifth .container .right .slider .swiper-wrapper {
+  margin-bottom: 50px;
+}
+.why-tlc-page .fifth .container .right .slider .swiper-wrapper .swiper-slide img {
+  width: 100%;
+}
+#awards-page-slider-pagination {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 12px);
+  justify-content: center;
+  gap: 12px;
+  position: absolute;
+  bottom: 0;
+}
+#awards-page-slider-pagination .swiper-pagination-bullet {
+  display: block;
+  background-color: #999;
+  width: 12px;
+  height: 12px;
+  transition: 0.25s;
+}
+#awards-page-slider-pagination .swiper-pagination-bullet-active {
+  background-color: var(--color-blue);
+  width: 12px;
+  height: 12px;
+}
+
+
+@media screen and (max-width: 912px) {
+  .why-tlc-page .fifth {
+    padding: 50px 0;
+  }
+  .why-tlc-page .fifth .container {
+    grid-template-columns: 1fr;
+  }
+  .why-tlc-page .fifth .container .left {
+    text-align: center;
+  }
+  .why-tlc-page .fifth .container .left .H4  {
+    font-size: 16px;
+  }
+  .why-tlc-page .fifth .container .left .body-1 {
+    font-size: 16px;
+  }
+  #awards-page-slider-pagination {
+    gap: 9px;
+  }
+  #awards-page-slider-pagination .swiper-pagination-bullet {
+    width: 9px;
+    height: 9px;
+  }
+  #awards-page-slider-pagination .swiper-pagination-bullet-active {
+    width: 9px;
+    height: 9px;
+  }
+}

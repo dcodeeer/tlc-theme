@@ -1,0 +1,60 @@
+.cookies-page .first {
+  background-color: #EEF5FF;
+  color: var(--color-blue);
+  text-align: center;
+  padding: 100px 0 60px 0;
+}
+.cookies-page .first .container .title {
+  margin-bottom: 16px;
+}
+.cookies-page .second {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 80px 0;
+}
+.cookies-page .second .title {
+  color: var(--color-blue);
+  text-align: center;
+}
+.cookies-page .second .list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.cookies-page .second .list .item {
+  display: grid;
+  grid-template-columns: 37px 1fr;
+  gap: 20px;
+}
+.cookies-page .second .list .item svg {
+  width: 37px;
+  height: 37px;
+}
+.cookies-page .second .list .item span {
+  margin-top: 3px;
+}
+.cookies-page .third {
+  padding-bottom: 60px;
+}
+@media screen and (max-width: 480px) {
+  .cookies-page .first {
+    text-align: start;
+    padding: 70px 0 40px 0;
+  }
+  .cookies-page .first .container .title {
+    font-size: 20px;
+  }
+  .cookies-page .first .container .description {
+    font-size: 16px;
+  }
+  .cookies-page .second {
+    padding: 40px 0;
+  }
+  .cookies-page .second .title {
+    font-size: 20px;
+  }
+  .cookies-page .third {
+    padding-bottom: 40px;
+  }
+}

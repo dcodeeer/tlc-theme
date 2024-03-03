@@ -1,0 +1,375 @@
+.why-partner-with-tlc-page .why-partner-with-tlc-first {
+  height: 500px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-first .slider {
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-first .slider .swiper-wrapper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-first img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media screen and (max-width: 480px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-first {
+    height: 400px;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-first img {
+    object-position: 80%;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-first .slider {
+    height: 400px;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-first .slider .swiper-wrapper .swiper-slide img {
+    object-position: 75%;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-second {
+  padding: 40px 0;
+  text-align: center;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-second .title {
+  color: var(--color-blue);
+  margin-bottom: 8px;
+}
+@media screen and (max-width: 480px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-second {
+    padding: 24px 0;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-second .title {
+    font-size: 32px;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-second .mini-title {
+    font-size: 16px;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third {
+  background-color: #EEF5FF;
+  padding: 60px 0;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 75px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .list .block {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.03), 0px 1.22393px 11.42331px 0px rgba(0, 0, 0, 0.03), 0px 5.30368px 21.21471px 0px rgba(0, 0, 0, 0.02), 0px 11.83128px 29.37422px 0px rgba(0, 0, 0, 0.02), 0px 21.21471px 34.26992px 0px rgba(0, 0, 0, 0.01), 0px 33.65796px 37.53373px 0px rgba(0, 0, 0, 0);
+  padding: 35px 20px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .list .block .top {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .list .block .top .icon {
+  background-color: var(--color-green);
+  border-radius: 100%;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .info .left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-third .container .info img {
+  width: 100%;
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-third {
+    padding: 40px 0;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-third .container .list {
+    margin-bottom: 32px;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-third .container .info {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth {
+  background-color: #fff;
+  padding: 80px 0;
+  display: grid;
+  grid-template-columns: minmax(300px, 550px) minmax(530px, 1fr);
+  gap: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .left img {
+  width: 100%;
+  height: auto;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .left .info {
+  color: var(--color-blue);
+  text-align: center;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 56px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right .title {
+  color: var(--color-blue);
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right .list {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right .list .block {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right .list .block .icon {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--color-green);
+  border-radius: 100%;
+  color: var(--color-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fourth .right .list .block .text {
+  color: var(--color-gray);
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-fourth {
+    grid-template-columns: 1fr;
+    padding: 40px 0;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-fourth .right {
+    align-items: center;
+    gap: 24px;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth {
+  background-color: #EEF5FF;
+  padding: 75px 0;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 120px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container .blue {
+  color: var(--color-blue);
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container .left .title {
+  margin-bottom: 32px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container .left .mini-title {
+  margin-bottom: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container .left p {
+  margin-bottom: 24px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container .left .bottom {
+  margin-top: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-fifth .container img {
+  max-width: 430px;
+  width: 100%;
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-fifth {
+    padding: 35px 0;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-fifth .container {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-fifth .container img {
+    margin: 0 auto;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth {
+  padding: 100px 0;
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  gap: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right .blue {
+  color: var(--color-blue);
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right .content .mini-title {
+  margin-bottom: 24px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right .content .list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style-type: none;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right .content .list li {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-sixth .right .content .list li::before {
+  background-color: var(--color-gray);
+  opacity: 0.6;
+  content: '';
+  display: block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 6px 10px 6px 0;
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-sixth {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh {
+  background-color: #EEF5FF;
+  padding: 100px 0;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container .left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container .left .blue {
+  color: var(--color-blue);
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container .left .content .list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style-type: none;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container .left .content .list li {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-seventh .container .left .content .list li::before {
+  background-color: var(--color-gray);
+  opacity: 0.6;
+  content: '';
+  display: block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 6px 10px 6px 0;
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-seventh {
+    padding: 40px 0;
+  }
+  .why-partner-with-tlc-page .why-partner-with-tlc-seventh .container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth {
+  padding: 100px 0;
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  gap: 30px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right .blue {
+  color: var(--color-blue);
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right .content .mini-title {
+  margin-bottom: 24px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right .content .list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style-type: none;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right .content .list li {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 16px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-eighth .right .content .list li::before {
+  background-color: var(--color-gray);
+  opacity: 0.6;
+  content: '';
+  display: block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 6px 10px 6px 0;
+}
+@media screen and (max-width: 912px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-eighth {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0;
+  }
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-ninth {
+  background-color: #EEF5FF;
+  padding: 90px 0;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-ninth .container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.why-partner-with-tlc-page .why-partner-with-tlc-ninth .container .blue {
+  color: var(--color-blue);
+}
+@media screen and (max-width: 480px) {
+  .why-partner-with-tlc-page .why-partner-with-tlc-ninth {
+    padding: 40px 0;
+  }
+}
+.why-partner-with-tlc-page .tenth {
+  padding: 64px 0;
+}

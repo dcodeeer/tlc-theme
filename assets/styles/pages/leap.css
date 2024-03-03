@@ -1,0 +1,70 @@
+.leap-page .leap-first {
+  background-color: #EEF5FF;
+}
+.leap-page .leap-first .container {
+  padding: 100px 0 50px 0;
+  text-align: center;
+  color: var(--color-blue);
+}
+.leap-page .leap-first .container .title {
+  margin-bottom: 16px;
+}
+@media screen and (max-width: 480px) {
+  .leap-page .leap-first .container {
+    padding: 100px 0;
+  }
+  .leap-page .leap-first .container .title {
+    font-size: 28px;
+  }
+  .leap-page .leap-first .container .description {
+    font-size: 16px;
+  }
+}
+.leap-page .leap-second {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  padding: 50px 0;
+}
+.leap-page .leap-second .block .top {
+  max-width: 430px;
+  min-height: 100px;
+  margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+}
+.leap-page .leap-second .block .top .number {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-blue);
+  border-radius: 100%;
+  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leap-page .leap-second .block .bottom {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 30px;
+  align-items: center;
+}
+.leap-page .leap-second .block .bottom .segment {
+  background-color: #EEF5FF;
+  padding: 65px 0;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 912px) {
+  .leap-page .leap-second {
+    grid-template-columns: 1fr;
+  }
+  .leap-page .leap-second .block .top {
+    max-width: 100%;
+  }
+}
+.leap-page .third {
+  padding: 65px 0;
+}

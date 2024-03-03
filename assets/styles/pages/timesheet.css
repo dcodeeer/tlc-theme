@@ -1,0 +1,53 @@
+.timesheet-page .first {
+  background-color: #EEF5FF;
+  height: 400px;
+  padding-top: 70px;
+  color: var(--color-blue);
+  text-align: center;
+}
+.timesheet-page .first .H1 {
+  margin-bottom: 8px;
+}
+
+.timesheet-page .second {
+  display: flex;
+  flex-direction: column;
+}
+.timesheet-page .second .video {
+  background-color: var(--color-gray);
+  max-width: 890px;
+  width: 100%;
+  aspect-ratio: 1.7777777778;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  margin-top: -180px;
+  position: relative;
+}
+.timesheet-page .second .video iframe {
+  width: 100%;
+  aspect-ratio: 1.7777777778;
+}
+
+.timesheet-page .second .document iframe {
+  width: 100%;
+  height: 775px;
+  margin-bottom: 50px;
+}
+
+
+@media screen and (max-width: 550px) {
+  .timesheet-page .first {
+    height: 290px;
+  }
+  .timesheet-page .first .H1 {
+    font-size: 28px;
+  }
+  .timesheet-page .first .description {
+    font-size: 16px;
+  }
+  .timesheet-page .second .video {
+    margin-top: -50px;
+  }
+}

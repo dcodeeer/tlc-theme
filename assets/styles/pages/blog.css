@@ -1,0 +1,111 @@
+.blog-page .article-card-component {
+  background-color: #EEF5FF;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.blog-page .article-card-component img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.blog-page .article-card-component .content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+  padding: 16px 22px;
+}
+.blog-page .article-card-component .content .H4 {
+  transition: 0.25s;
+}
+.blog-page .article-card-component .content .H4:hover {
+  color: var(--color-blue);
+}
+.blog-page .article-card-component .content .tag {
+  background-color: var(--color-blue);
+  color: #fff;
+  padding: 5px 18px;
+  border-radius: 3px;
+  font-size: 14px;
+  transition: 0.25s;
+}
+.blog-page .article-card-component .content .tag:hover {
+  opacity: 0.8;
+}
+.blog-page .article-card-component .content .bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.blog-page .article-card-component .content .bottom .right {
+  display: flex;
+  gap: 16px;
+}
+.blog-page .header {
+  background-color: #EEF5FF;
+  padding: 70px 0 100px 0;
+}
+.blog-page .header .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.blog-page .header .container .title, .blog-page .header .container .description {
+  color: var(--color-blue);
+}
+.blog-page .header .container .form {
+  width: 100%;
+}
+.blog-page .header .container .form .inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 38px;
+}
+.blog-page .header .container .form .input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.blog-page .header .container .form .input label {
+  opacity: 0.4;
+}
+.blog-page .header .container .form .input input {
+  width: 100%;
+  background-color: #fff;
+  padding: 18px 34px;
+  border-radius: 10px;
+}
+.blog-page .header .container .form button {
+  margin: 0 auto;
+}
+.blog-page .box {
+  padding: 70px 0;
+}
+.blog-page .box .title {
+  margin-bottom: 40px;
+}
+.blog-page .box .list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 30px;
+}
+@media screen and (max-width: 480px) {
+  .blog-page .header {
+    text-align: center;
+    padding: 70px 0 40px 0;
+  }
+  .blog-page .header .container .title {
+    font-size: 28px;
+  }
+  .blog-page .header .container .description {
+    font-size: 16px;
+  }
+  .blog-page .box {
+    padding: 40px 0;
+  }
+  .blog-page .box .title {
+    font-size: 28px;
+  }
+}
