@@ -179,11 +179,6 @@
   .index-page .first .container .form {
     width: 100%;
   }
-  .index-page .first .container .form .head {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
   .index-page .first .container .form .bottom {
     width: 100%;
     display: grid;
@@ -191,6 +186,14 @@
   }
   .index-page .first .container .form .bottom .clear-button {
     margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 712px) {
+.index-page .first .container .form .head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 }
 

@@ -4,11 +4,15 @@ class Dropdown {
     this.select = dropdown.querySelector('.select');
     this.options = dropdown.querySelector('.options');
     this.hidden = dropdown.querySelector('.hidden');
+    this.firstRender = true;
 
     this.selectedOptions = {};
     this.values = [];
 
     dropdown.addEventListener('click', (e) => this.callback(e));
+
+    this.updateSelectedOptions();
+    this.renderOptions();
   }
   
   toggle() {
@@ -34,6 +38,8 @@ class Dropdown {
       this.openProfessions(e);
     } else if (e.target.classList.contains('back-to-categories')) {
       this.backToCategories(e);
+    } else if (e.target.classList.contains('back-to-professions')) {
+      this.backToProfession(e);
     } else if (e.target.classList.contains('profession-name')) {
       this.openSpecialities(e);
     }
@@ -41,11 +47,19 @@ class Dropdown {
 
   backToCategories(e) {
     const categoryId = e.target.parentNode.getAttribute('data-category-id');
-    console.log(categoryId)
     const professions = this.element.querySelector(`.professions[data-category-id='${categoryId}']`);
 
     professions.classList.remove('show');
     this.options.querySelector('.categories').classList.remove('hide');
+  }
+
+  backToProfession(e) {
+    const categoryId = e.target.getAttribute('data-category-id');
+    const professions = this.element.querySelector(`.professions[data-category-id='${categoryId}']`);
+    professions.classList.remove('hide');
+    professions.classList.add('show');
+    
+    e.target.parentNode.classList.add('hide');
   }
 
   openProfessions(e) {
@@ -60,8 +74,9 @@ class Dropdown {
     const professionId = e.target.getAttribute('data-profession-id');
     const specialties = this.element.querySelector(`.specialities[data-profession-id='${professionId}']`);
 
+    specialties.classList.remove('hide');
     specialties.classList.add('show');
-    e.target.parentNode.classList.add('hide');
+    e.target.closest('.professions').classList.add('hide');
   }
   
   option(e) {
@@ -110,16 +125,22 @@ class Dropdown {
         const dataValue = label.getAttribute('data-value');
         const pContent = label.querySelector('p').textContent;
         this.selectedOptions[dataValue] = pContent;
+        if (this.firstRender) {
+          this.values.push(dataValue);
+        };
       }
     });
+    this.firstRender = false;
   }
 
   renderOptions() {
     const selectedOptions = this.element.querySelector('.values');
 
-    selectedOptions.innerHTML = '';
+    if (selectedOptions) {
+      selectedOptions.innerHTML = '';
+    }
 
-    const nameSizeLimit = 20;
+    const nameSizeLimit = 18;
     let nameSizeCount = 0;
     let visibleValueCount = 0;
     for (let key in this.selectedOptions) {
@@ -133,14 +154,36 @@ class Dropdown {
         selectedOptions.appendChild(newSelectedOption);
       }
     }
-
-    console.log(visibleValueCount);
-
     if (this.values.length > visibleValueCount) {
       const moreText = this.addMoreText(this.values.length - visibleValueCount);
       this.element.querySelector('.values').appendChild(moreText);
     }
+    if (Object.keys(this.selectedOptions).length === 0) {
+      this.addPlaceholder();
+    } else {
+      this.removePlaceholder();
+    }
   };
+
+  addPlaceholder() {
+    const div = document.createElement('div');
+    div.classList.add('placeholder');
+
+    const text = this.select.getAttribute('data-placeholder');
+    div.innerHTML = text;
+
+    const values = this.select.querySelector('.values');
+    if (values) {
+      values.appendChild(div);
+    }
+  }
+
+  removePlaceholder() {
+    const elem = this.element.querySelector('.placeholder');
+    if (elem) {
+      elem.remove();
+    }
+  }
 
   createSelectOption(id, name) {
     const selectedOption = document.createElement('div');
@@ -168,12 +211,12 @@ class Dropdown {
       this.hidden.value = this.values.join(',');
     }
 
-    const option = document.querySelector(`div.value[data-id='${id}']`);
+    const option = this.element.querySelector(`div.value[data-id='${id}']`);
     if (option) {
       option.remove();
     };
 
-    const label = document.querySelector(`label.checkbox[data-value='${id}']`);
+    const label = this.element.querySelector(`label.checkbox[data-value='${id}']`);
     if (label) {
       label.querySelector('input').checked = false;
     };
@@ -197,7 +240,18 @@ dropdowns.forEach((dropdown) => {
 
 document.addEventListener('click', (e) => { 
   list.forEach((dropdown) => {
-    if (!dropdown.element.contains(e.target)) dropdown.hide();
+    if (!dropdown.element.contains(e.target)) {
+      const dropdownChilds = [
+        dropdown.element.querySelectorAll('.categories'),
+        dropdown.element.querySelectorAll('.professions'),
+        dropdown.element.querySelectorAll('.specialities'),
+      ];
+      dropdownChilds.forEach((elem) => {
+        elem.forEach((child) => child.classList.remove('show', 'hide'));
+      });
+      
+      dropdown.hide();
+    };
   });
 });
 

@@ -52,118 +52,81 @@ try {
 $states = $pdo->query("SELECT id, state_name FROM api_states")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query("SELECT id, name FROM api_professions_categories")->fetchAll(PDO::FETCH_ASSOC);
 
-$professions = array();
+$items = array();
 
 foreach ($categories as $category) {
-  $professions[$category['name']] = [];
+  $professions = array();
 
-  $sql = "SELECT id, name FROM api_professions WHERE category_id = :id";
-  $stmt = $pdo->prepare($sql);
-  $stmt->bindParam(':id', $category['id']);
-  $stmt->execute();
-  $profs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $id = $category['id'];
+  $profs = $pdo->query("SELECT id, name FROM api_professions WHERE category_id = $id")->fetchAll(PDO::FETCH_ASSOC);
 
-  for ($i = 0; $i < count($profs); $i++) {
-    $professions[$category['name']][$i]['id'] = $profs[$i]['id'];
-    $professions[$category['name']][$i]['name'] = $profs[$i]['name'];
+  foreach ($profs as $prof) {
+    $specialties = array();
+
+    $id = $prof['id'];
+    $rows = $pdo->query("SELECT id, name FROM api_specialties WHERE profession_id = $id")->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($rows as $row) {
+      $specialties[] = [
+        'id' => $row['id'],
+        'name' => $row['name'],
+      ];
+    }
+
+    $professions[] = [
+      'id' => $prof['id'],
+      'name' => $prof['name'],
+      'specialties' => $specialties,
+    ];
   }
-}
 
-$specialties = array();
-$stmt = $pdo->query("SELECT * FROM api_specialties");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  $professionId = $row['profession_id'];
-  if (!isset($specialties[$professionId])) {
-    $specialties[$professionId] = array();
-  }
-  $specialties[$professionId][] = $row;
+  $items[] = [
+    'id'   => $category['id'],
+    'name' => $category['name'],
+    'professions' => $professions,
+  ];
 }
-
 
 // current parameters
-$currentSpeciality = array();
-$currentSpecialityList = array();
-$currentProfession = array();
-if (isset($_GET['profession']) && is_numeric($_GET['profession'])) {
-  $currentProfession = $pdo->prepare("SELECT * FROM api_professions WHERE id = :id");
-  $currentProfession->bindParam(':id', $_GET['profession'], PDO::PARAM_INT);
-  $currentProfession->execute();
-  $currentProfession = $currentProfession->fetchAll(PDO::FETCH_ASSOC);
-  if (count($currentProfession) == 1) {
-    $currentProfession = $currentProfession[0];
-    $currentSpeciality = $pdo->prepare("SELECT * FROM api_specialties WHERE profession_id = :profession_id");
-    $currentSpeciality->bindParam(':profession_id', $currentProfession['id'], PDO::PARAM_INT);
-    $currentSpeciality->execute();
-    $currentSpeciality = $currentSpeciality->fetchAll(PDO::FETCH_ASSOC);
-    if (count($currentSpeciality) > 0) {
-      foreach ($currentSpeciality as $spec) {
-        if ($spec['id'] == $_GET['speciality']) $currentSpeciality = $spec;
-        $currentSpecialityList[] = $spec;
-      }
-    } else {
-      header('Location: /search-jobs');
-    }
-  } else $currentProfession = array();
-} else if (get_query_var('specialty_link') != '') {
-  $profession = $pdo->query("SELECT profession_id FROM api_specialties WHERE link = '". get_query_var('specialty_link') ."'")->fetch(PDO::FETCH_ASSOC);
-  $speciality = $pdo->query("SELECT id FROM api_specialties WHERE link = '". get_query_var('specialty_link') ."'")->fetch(PDO::FETCH_ASSOC);
-  $currentProfession = $pdo->prepare("SELECT * FROM api_professions WHERE id = :id");
-  $currentProfession->bindParam(':id', $profession['profession_id'], PDO::PARAM_INT);
-  $currentProfession->execute();
-  $currentProfession = $currentProfession->fetchAll(PDO::FETCH_ASSOC);
-  if (count($currentProfession) == 1) {
-    $currentProfession = $currentProfession[0];
-    $currentSpeciality = $pdo->prepare("SELECT * FROM api_specialties WHERE profession_id = :profession_id");
-    $currentSpeciality->bindParam(':profession_id', $currentProfession['id'], PDO::PARAM_INT);
-    $currentSpeciality->execute();
-    $currentSpeciality = $currentSpeciality->fetchAll(PDO::FETCH_ASSOC);
-    if (count($currentSpeciality) > 0) {
-      foreach ($currentSpeciality as $spec) {
-        if ($spec['id'] == $speciality['id']) $currentSpeciality = $spec;
-        $currentSpecialityList[] = $spec;
-      }
-    } else {
-      header('Location: /search-jobs');
-    }
-  } else $currentProfession = array();
+$currentSpecialities = [];
+
+$specialtiesFromParam = $_GET['specialties'];
+$specialtyFromVar = get_query_var('specialty_link');
+
+if (isset($specialtiesFromParam) && $specialtiesFromParam != '') {
+  $arrayFromParam = explode(',', $specialtiesFromParam);
+  $specialtiesCount = $pdo->query("SELECT COUNT(id) as count FROM `api_specialties` WHERE id IN ($specialtiesFromParam)")->fetch(PDO::FETCH_ASSOC);
+  if (intval($specialtiesCount['count']) == count($arrayFromParam)) {
+    $currentSpecialities = $arrayFromParam;
+  }
+} else if ($specialtyFromVar != '') {
+  $row = $pdo->query("SELECT id, name FROM api_specialties WHERE link = '$specialtyFromVar'")->fetch(PDO::FETCH_ASSOC);
+  if (count($row) > 0) {
+    $currentSpecialities[] = $row;
+  }
 }
 
-$currentState = array();
-if (isset($_GET['location']) && is_numeric($_GET['location'])) {
-  $currentState = $pdo->prepare("SELECT * FROM api_states WHERE id = :id");
-  $currentState->bindParam(':id', $_GET['location'], PDO::PARAM_INT);
-  $currentState->execute();
-  $currentState = $currentState->fetchAll(PDO::FETCH_ASSOC);
-  if (count($currentState) == 1) {
-    $currentState = $currentState[0];
-  } else $currentState = array();
-} else if (get_query_var('state') != '') {
-  $currentState = $pdo->prepare("SELECT * FROM api_states WHERE state_link = :state_link");
-  $currentState->bindParam(':state_link', get_query_var('state'), PDO::PARAM_STR);
-  $currentState->execute();
-  $currentState = $currentState->fetchAll(PDO::FETCH_ASSOC);
-  if (count($currentState) == 1) {
-    $currentState = $currentState[0];
-  } else $currentState = array();
-}
+$currentStates = [];
 
-function isDateValid($date, $format = 'Y-m-d') {
-  $dateTimeObject = DateTime::createFromFormat($format, $date);
-  return $dateTimeObject && $dateTimeObject->format($format) === $date;
-}
-$currentDate = '';
-if (isDateValid($_GET['start_date'])) {
-  $currentDate = $_GET['start_date'];
+$statesFromParam = $_GET['location'];
+$stateFromVar = get_query_var('state');
+
+if (isset($statesFromParam) && $statesFromParam != '') {
+  $arrayFromParam = explode(',', $statesFromParam);
+  $row = $pdo->query("SELECT COUNT(id) as count FROM api_states WHERE id IN ($statesFromParam)")->fetch(PDO::FETCH_ASSOC);
+  if (intval($row['count']) == count($arrayFromParam)) {
+    $currentStates = $arrayFromParam;
+  }
+} else if ($stateFromVar != '') {
+  $row = $pdo->query("SELECT id FROM api_states WHERE state_link = '$stateFromVar'")->fetch(PDO::FETCH_ASSOC);
+  if (count($row) > 0) {
+    $currentStates[] = $row['id'];
+  }
 }
 
 // current parameters end
 
-
 $paged = isset($_GET['paged']) && is_numeric($_GET['paged']) ? $_GET['paged'] : 1;
 $offset = isset($_GET['paged']) && is_numeric($_GET['paged']) ? ($_GET['paged']-1) * 6 : 0;
-
-$profession = $currentProfession['id'] != 0 ? $currentProfession['id'] : 0;
-$state = $currentState['id'] != 0 ? $currentState['id'] : 0;
 
 $sql = "SELECT id, title, description, start_date, end_date, state_id,
           (SELECT state_name FROM api_states WHERE id = state_id) as state, city,
@@ -172,19 +135,12 @@ $sql = "SELECT id, title, description, start_date, end_date, state_id,
           weekly_pay_range_low, weekly_pay_range_high, duration_length, vacancy_link
         FROM api_vacancies WHERE 1 ";
 
-if ($state > 0) $sql .= " AND state_id = :state_id";
-if ($profession > 0) $sql .= " AND profession_id = :profession_id";
-if ($currentSpeciality['id'] > 0) $sql .= " AND specialty_id = :specialty_id";
-if ($currentDate != '') $sql .= " AND start_date = :start_date";
+if (count($currentStates) > 0) $sql .= " AND state_id IN ($statesFromParam)";
+if (count($currentSpecialities) > 0) $sql .= " AND specialty_id IN ($specialtiesFromParam)";
 
 $stmt = $pdo->prepare($sql . " ORDER BY weekly_pay_range_low DESC LIMIT 6 OFFSET :offset");
 
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-if ($profession > 0) $stmt->bindParam(':profession_id', $profession, PDO::PARAM_INT);
-if ($state > 0) $stmt->bindParam(':state_id', $state, PDO::PARAM_INT);
-if ($currentSpeciality['id'] > 0) $stmt->bindParam(':specialty_id', $currentSpeciality['id'], PDO::PARAM_INT);
-if ($currentDate != '') $stmt->bindParam(':start_date', $currentDate, PDO::PARAM_STR);
-
 $stmt->execute();
 $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -192,15 +148,9 @@ $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $total_pages = 1;
 
 $sql = "SELECT COUNT(id) as count FROM api_vacancies WHERE 1 ";
-if ($state > 0) $sql .= " AND state_id = :state_id";
-if ($profession > 0) $sql .= " AND profession_id = :profession_id";
-if ($currentSpeciality['id'] > 0) $sql .= " AND specialty_id = :specialty_id";
-if ($currentDate != '') $sql .= " AND start_date = :start_date";
+if (count($currentStates) > 0) $sql .= " AND state_id IN ($statesFromParam)";
+if (count($currentSpecialities) > 0) $sql .= " AND specialty_id IN ($specialtiesFromParam)";
 $stmt = $pdo->prepare($sql);
-if ($profession > 0) $stmt->bindParam(':profession_id', $profession, PDO::PARAM_INT);
-if ($state > 0) $stmt->bindParam(':state_id', $state, PDO::PARAM_INT);
-if ($currentSpeciality['id'] > 0) $stmt->bindParam(':specialty_id', $currentSpeciality['id'], PDO::PARAM_INT);
-if ($currentDate != '') $stmt->bindParam(':start_date', $currentDate, PDO::PARAM_STR);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_pages = ceil($result['count'] / 6);
@@ -231,62 +181,83 @@ $total_pages = ceil($result['count'] / 6);
         <div class='left'>
           
           <div class='dropdown'>
-            <input id='profession-dropdown' class='hidden' type='hidden' name='profession' value='<?php echo $currentProfession['id']; ?>' />
-            <div class='select'>
-              <input type='text' readonly placeholder='Select Specialties by Profession' value='<?php echo $currentProfession['name']; ?>' />
+            <input id='profession-dropdown' class='hidden' type='hidden' name='specialties' value='<?php echo $specialtiesFromParam; ?>' />
+            <div class='select' data-placeholder='Select Specialties by Profession'>
+              <div class='values'>
+                <div class='placeholder'>Select Specialties by Profession</div>
+              </div>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.5" d="M5.75843 7.4435L12.0084 13.3362L18.2584 7.4435C18.4075 7.30289 18.5845 7.19136 18.7794 7.11526C18.9742 7.03917 19.1831 7 19.394 7C19.6049 7 19.8137 7.03917 20.0086 7.11526C20.2034 7.19136 20.3805 7.30289 20.5296 7.4435C20.6787 7.58411 20.797 7.75103 20.8778 7.93474C20.9585 8.11845 21 8.31535 21 8.5142C21 8.71305 20.9585 8.90995 20.8778 9.09366C20.797 9.27737 20.6787 9.4443 20.5296 9.5849L13.136 16.5559C12.9869 16.6966 12.8099 16.8083 12.6151 16.8846C12.4202 16.9608 12.2113 17 12.0003 17C11.7894 17 11.5805 16.9608 11.3856 16.8846C11.1908 16.8083 11.0137 16.6966 10.8647 16.5559L3.47107 9.5849C3.32174 9.4444 3.20327 9.27751 3.12244 9.09378C3.04161 8.91006 3 8.71311 3 8.5142C3 8.3153 3.04161 8.11834 3.12244 7.93462C3.20327 7.75089 3.32174 7.584 3.47107 7.4435C4.09929 6.86638 5.13021 6.8512 5.75843 7.4435Z" fill="#606C77"/></svg>
             </div>
-            <div class='options'>
+            <div class='options' data-type='multi'>
 
               <div class='categories'>
-                <div class='category H5' data-category-id='1'>NURSING</div>
-                <div class='category H5' data-category-id='2'>ALLIED</div>
-              </div>
-              
-              <div class='professions' data-category-id='1'>
-                <div class='back-to-categories body-3'>Back to Profession Type</div>
-                <div class='item H5'>NURSING</div>
-                <div class='list body-2'>
-                  <div class='item profession-name' data-profession-id='1'>Registered Nurse (RN)</div>
-                </div>
+                <?php foreach ($items as $category): ?>
+                <div class='category H5' data-category-id='<?php echo $category['id'] ?>'><?php echo $category['name'] ?></div>
+                <?php endforeach; ?>
               </div>
 
-              <div class='specialities' data-profession-id='1'>
-                <div class='back-to-categories'>Back to Nursing Professions</div>
-                <div class='H5'>NURSING</div>
-                <div class='list'>
-                  <div class='item '>All Registered Nurse Specialities</div>
-                  <div class='item' data-specialty-id='1' data-profession-specialty='1'>Specialty</div>
-                  <div class='item' data-specialty-id='2' data-profession-specialty='1'>Specialty</div>
-                </div>
-              </div>
-              <!-- <?php foreach ($professions as $category => $profs_array):  ?>
-              <div class="headline">
-                <div class="title">
-                  <span><?php echo $category; ?></span>
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.5" d="M6.20284 15.2013L11.1134 9.993L6.20284 4.7847C6.08566 4.66042 5.99272 4.51289 5.9293 4.35051C5.86589 4.18813 5.83325 4.0141 5.83325 3.83835C5.83325 3.66259 5.86589 3.48856 5.9293 3.32618C5.99272 3.16381 6.08566 3.01627 6.20284 2.89199C6.32001 2.76771 6.45911 2.66913 6.6122 2.60188C6.7653 2.53462 6.92938 2.5 7.09509 2.5C7.26079 2.5 7.42488 2.53462 7.57797 2.60188C7.73106 2.66913 7.87017 2.76771 7.98734 2.89199L13.7965 9.05336C13.9138 9.17755 14.0069 9.32506 14.0704 9.48744C14.1339 9.64983 14.1666 9.82391 14.1666 9.99972C14.1666 10.1755 14.1339 10.3496 14.0704 10.512C14.0069 10.6744 13.9138 10.8219 13.7965 10.9461L7.98734 17.1074C7.87025 17.2319 7.73118 17.3306 7.57807 17.398C7.42497 17.4653 7.26084 17.5 7.09509 17.5C6.92933 17.5 6.76521 17.4653 6.6121 17.398C6.459 17.3306 6.31992 17.2319 6.20284 17.1074C5.72191 16.5839 5.70925 15.7248 6.20284 15.2013Z" fill="#606C77"></path></svg>                      
-                </div>
-                <div class="list">
-                  <?php foreach ($profs_array as $prof): ?>
-                  <div class='option' data-value='<?php echo $prof['id']; ?>'><?php echo $prof['name']; ?></div>
+              <?php foreach ($items as $category): ?>
+              <div class='professions' data-category-id='<?php echo $category['id']; ?>'>
+                <div class='back-to-categories body-3'>Back to Profession Type</div>
+                <div class='item H5'><?php echo $category['name']; ?></div>
+                <div class='list body-2'>
+                  <?php foreach ($category['professions'] as $profession): ?>
+                  <div class='item profession-name' data-profession-id='<?php echo $profession['id']; ?>'><?php echo $profession['name']; ?></div>
                   <?php endforeach; ?>
                 </div>
               </div>
-              <?php endforeach; ?> -->
+              <?php endforeach; ?>
+              
+              <?php
+              foreach ($items as $category):
+                foreach ($category['professions'] as $profession):
+              ?>
+              <div class='specialities' data-profession-id='<?php echo $profession['id'] ?>'>
+                <div class='back-to-professions body-3' data-category-id='<?php echo $category['id'] ?>'>Back to <?php echo $category['name'] ?> Professions</div>
+                <div class='item H5'><?php echo $category['name'] ?></div>
+                <div class='list'>
+                  <?php foreach ($profession['specialties'] as $specialty): ?>
+                  <label class='item checkbox' data-value='<?php echo $specialty['id'] ?>'>
+                    <p><?php echo $specialty['name']; ?></p>
+                    <?php 
+                    $isChecked = '';
+                    $condition = in_array(intval($specialty['id']), $currentSpecialities);
+                    if ($condition) {
+                      $isChecked = 'checked="true"';
+                    }
+                    ?>
+                    <input type='checkbox' <?php echo $isChecked; ?> />
+                  </label>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              <?php endforeach;
+            endforeach; ?>
+
             </div>
           </div>
 
           <div class='dropdown'>
-            <input class='hidden' type='hidden' name='location' value='' />
-            <div class='select'>
-              <div class='values'></div>
+            <input class='hidden' type='hidden' name='location' value='<?php echo $statesFromParam; ?>' />
+            <div class='select' data-placeholder='Location'>
+              <div class='values'>
+                <div class='placeholder'>Location</div>
+              </div>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.5" d="M5.75843 7.4435L12.0084 13.3362L18.2584 7.4435C18.4075 7.30289 18.5845 7.19136 18.7794 7.11526C18.9742 7.03917 19.1831 7 19.394 7C19.6049 7 19.8137 7.03917 20.0086 7.11526C20.2034 7.19136 20.3805 7.30289 20.5296 7.4435C20.6787 7.58411 20.797 7.75103 20.8778 7.93474C20.9585 8.11845 21 8.31535 21 8.5142C21 8.71305 20.9585 8.90995 20.8778 9.09366C20.797 9.27737 20.6787 9.4443 20.5296 9.5849L13.136 16.5559C12.9869 16.6966 12.8099 16.8083 12.6151 16.8846C12.4202 16.9608 12.2113 17 12.0003 17C11.7894 17 11.5805 16.9608 11.3856 16.8846C11.1908 16.8083 11.0137 16.6966 10.8647 16.5559L3.47107 9.5849C3.32174 9.4444 3.20327 9.27751 3.12244 9.09378C3.04161 8.91006 3 8.71311 3 8.5142C3 8.3153 3.04161 8.11834 3.12244 7.93462C3.20327 7.75089 3.32174 7.584 3.47107 7.4435C4.09929 6.86638 5.13021 6.8512 5.75843 7.4435Z" fill="#606C77"/></svg>
             </div>
-            <div class='options' data-type='multi'>
+            <div class='options'>
+              <div class='states-title H5'>STATES</div>
               <?php foreach ($states as $state) : ?>
               <label class='checkbox' data-value='<?php echo $state['id']; ?>'>
                 <p><?php echo $state['state_name']; ?></p>
-                <input type='checkbox' />
+                <?php 
+                $isChecked = '';
+                $condition = in_array(intval($state['id']), $currentStates);
+                if ($condition) {
+                  $isChecked = 'checked="true"';
+                }
+                ?>
+                <input type='checkbox' <?php echo $isChecked; ?> />
               </label>
               <?php endforeach; ?>
             </div>
@@ -540,44 +511,6 @@ $total_pages = ceil($result['count'] / 6);
   </div>
 
 </div>
-
-<script type='text/javascript'>
-new AirDatepicker('#datepicker-input', {
-  dateFormat: 'yyyy-MM-dd',
-  autoClose: true,
-});
-</script>
-
-<script type='text/javascript'>
-const specialties = JSON.parse('<?php echo json_encode($specialties); ?>');
-
-const getSpecs = (id) => {
-  const arr = specialties[id];
-
-  const dropdown = document.getElementById('speciality-dropdown');
-  const options = dropdown.querySelector('.options');
-  options.innerHTML = '';
-
-  dropdown.querySelectorAll('input').forEach((input) => {
-    //input.value = '';
-  });
-
-  for (let i = 0; i < arr.length; i++) {
-    const option = document.createElement('div');
-    option.classList.add('option');
-    option.setAttribute('data-value', arr[i]['id'].toString());
-    option.innerHTML = arr[i]['name'].toString();
-    options.append(option);
-  };
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  const id = document.querySelector('#profession-dropdown').value.toString();
-  getSpecs(id);
-});
-
-document.querySelector('#profession-dropdown').addEventListener('change', (e) => getSpecs(e.currentTarget.value.toString()));
-</script>
 
 <script type='text/javascript'>
 const detailOpenListener = (e) => {

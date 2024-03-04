@@ -23,29 +23,78 @@ $jobs_by_states = $pdo->query("SELECT state_id, (SELECT state_name FROM api_stat
 
 $states = $pdo->query("SELECT id, state_name FROM api_states")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query("SELECT id, name FROM api_professions_categories")->fetchAll(PDO::FETCH_ASSOC);
-$specialties = $pdo->query("SELECT * FROM api_specialties")->fetchAll(PDO::FETCH_ASSOC);
 
-$specialtiesByID = array();
-foreach ($specialties as $specialty) {
-  $specialtiesByID[$specialty['id']] = $specialty;
-}
-
-$professions = array();
+$items = array();
 
 foreach ($categories as $category) {
-  $professions[$category['name']] = [];
+  $professions = array();
 
-  $sql = "SELECT id, name FROM api_professions WHERE category_id = :id";
-  $stmt = $pdo->prepare($sql);
-  $stmt->bindParam(':id', $category['id']);
-  $stmt->execute();
-  $profs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $id = $category['id'];
+  $rows = $pdo->query("SELECT id, name FROM api_professions WHERE category_id = $id")->fetchAll(PDO::FETCH_ASSOC);
 
-  for ($i = 0; $i < count($profs); $i++) {
-    $professions[$category['name']][$i]['id'] = $profs[$i]['id'];
-    $professions[$category['name']][$i]['name'] = $profs[$i]['name'];
+  foreach ($rows as $row) {
+    $specialties = array();
+
+    $id = $row['id'];
+    $rows = $pdo->query("SELECT id, name FROM api_specialties WHERE profession_id = $id")->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($rows as $row) {
+      $specialties[] = [
+        'id' => $row['id'],
+        'name' => $row['name'],
+      ];
+    }
+
+    $professions[] = [
+      'id' => $row['id'],
+      'name' => $row['name'],
+      'specialties' => $specialties,
+    ];
+  }
+
+  $items[] = [
+    'id'   => $category['id'],
+    'name' => $category['name'],
+    'professions' => $professions,
+  ];
+}
+
+// current parameters
+$currentSpecialities = [];
+
+$specialtiesFromParam = $_GET['specialties'];
+$specialtyFromVar = get_query_var('specialty_link');
+
+if (isset($specialtiesFromParam) && $specialtiesFromParam != '') {
+  $arrayFromParam = explode(',', $specialtiesFromParam);
+  $specialtiesCount = $pdo->query("SELECT COUNT(id) as count FROM `api_specialties` WHERE id IN ($specialtiesFromParam)")->fetch(PDO::FETCH_ASSOC);
+  if (intval($specialtiesCount['count']) == count($arrayFromParam)) {
+    $currentSpecialities = $arrayFromParam;
+  }
+} else if ($specialtyFromVar != '') {
+  $row = $pdo->query("SELECT id, name FROM api_specialties WHERE link = '$specialtyFromVar'")->fetch(PDO::FETCH_ASSOC);
+  if (count($row) > 0) {
+    $currentSpecialities[] = $row;
   }
 }
+
+$currentStates = [];
+
+$statesFromParam = $_GET['location'];
+$stateFromVar = get_query_var('state');
+
+if (isset($statesFromParam) && $statesFromParam != '') {
+  $arrayFromParam = explode(',', $statesFromParam);
+  $row = $pdo->query("SELECT COUNT(id) as count FROM api_states WHERE id IN ($statesFromParam)")->fetch(PDO::FETCH_ASSOC);
+  if (intval($row['count']) == count($arrayFromParam)) {
+    $currentStates = $arrayFromParam;
+  }
+} else if ($stateFromVar != '') {
+  $row = $pdo->query("SELECT id FROM api_states WHERE state_link = '$stateFromVar'")->fetch(PDO::FETCH_ASSOC);
+  if (count($row) > 0) {
+    $currentStates[] = $row['id'];
+  }
+}
+
 ?>
 
 <?php get_header() ?>
@@ -59,8 +108,8 @@ foreach ($categories as $category) {
       <div class='swiper-wrapper'>
 
         <?php
-        $items = get_field('first_slider');
-        foreach ($items as $item) :
+        $slider = get_field('first_slider');
+        foreach ($slider as $item) :
         ?>
         <div class='swiper-slide'><img src='<?php echo $item; ?>' /></div>
         <?php endforeach; ?>
@@ -80,41 +129,87 @@ foreach ($categories as $category) {
       <form class='form' action='<?php echo SEARCH_JOBS_LINK; ?>'>
         <div class='head'>
           <div class='input'>
-            <div class='dropdown'>
-              <input class='hidden' type='hidden' name='profession' value='' />
-              <div class='select'>
-                <input id='first-profession-input' type='text' readonly placeholder='Profession' />
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.5" d="M5.75843 7.4435L12.0084 13.3362L18.2584 7.4435C18.4075 7.30289 18.5845 7.19136 18.7794 7.11526C18.9742 7.03917 19.1831 7 19.394 7C19.6049 7 19.8137 7.03917 20.0086 7.11526C20.2034 7.19136 20.3805 7.30289 20.5296 7.4435C20.6787 7.58411 20.797 7.75103 20.8778 7.93474C20.9585 8.11845 21 8.31535 21 8.5142C21 8.71305 20.9585 8.90995 20.8778 9.09366C20.797 9.27737 20.6787 9.4443 20.5296 9.5849L13.136 16.5559C12.9869 16.6966 12.8099 16.8083 12.6151 16.8846C12.4202 16.9608 12.2113 17 12.0003 17C11.7894 17 11.5805 16.9608 11.3856 16.8846C11.1908 16.8083 11.0137 16.6966 10.8647 16.5559L3.47107 9.5849C3.32174 9.4444 3.20327 9.27751 3.12244 9.09378C3.04161 8.91006 3 8.71311 3 8.5142C3 8.3153 3.04161 8.11834 3.12244 7.93462C3.20327 7.75089 3.32174 7.584 3.47107 7.4435C4.09929 6.86638 5.13021 6.8512 5.75843 7.4435Z" fill="#606C77"/></svg>
+          <div class='dropdown'>
+            <input id='profession-dropdown' class='hidden' type='hidden' name='specialties' value='<?php echo $specialtiesFromParam; ?>' />
+            <div class='select' data-placeholder='Select Specialties by Profession'>
+              <div class='values'>
+                <div class='placeholder'>Select Specialties by Profession</div>
               </div>
-              <div class='options'>
-                <?php foreach ($professions as $category => $profs_array):  ?>
-                <div class="headline">
-                  <div class="title">
-                    <span><?php echo $category; ?></span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.5" d="M6.20284 15.2013L11.1134 9.993L6.20284 4.7847C6.08566 4.66042 5.99272 4.51289 5.9293 4.35051C5.86589 4.18813 5.83325 4.0141 5.83325 3.83835C5.83325 3.66259 5.86589 3.48856 5.9293 3.32618C5.99272 3.16381 6.08566 3.01627 6.20284 2.89199C6.32001 2.76771 6.45911 2.66913 6.6122 2.60188C6.7653 2.53462 6.92938 2.5 7.09509 2.5C7.26079 2.5 7.42488 2.53462 7.57797 2.60188C7.73106 2.66913 7.87017 2.76771 7.98734 2.89199L13.7965 9.05336C13.9138 9.17755 14.0069 9.32506 14.0704 9.48744C14.1339 9.64983 14.1666 9.82391 14.1666 9.99972C14.1666 10.1755 14.1339 10.3496 14.0704 10.512C14.0069 10.6744 13.9138 10.8219 13.7965 10.9461L7.98734 17.1074C7.87025 17.2319 7.73118 17.3306 7.57807 17.398C7.42497 17.4653 7.26084 17.5 7.09509 17.5C6.92933 17.5 6.76521 17.4653 6.6121 17.398C6.459 17.3306 6.31992 17.2319 6.20284 17.1074C5.72191 16.5839 5.70925 15.7248 6.20284 15.2013Z" fill="#606C77"></path></svg>                      
-                  </div>
-                  <div class="list opened">
-                    <?php foreach ($profs_array as $prof): ?>
-                    <div class='option' data-value='<?php echo $prof['id']; ?>'><?php echo $prof['name']; ?></div>
-                    <?php endforeach; ?>
-                  </div>
-                </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.5" d="M5.75843 7.4435L12.0084 13.3362L18.2584 7.4435C18.4075 7.30289 18.5845 7.19136 18.7794 7.11526C18.9742 7.03917 19.1831 7 19.394 7C19.6049 7 19.8137 7.03917 20.0086 7.11526C20.2034 7.19136 20.3805 7.30289 20.5296 7.4435C20.6787 7.58411 20.797 7.75103 20.8778 7.93474C20.9585 8.11845 21 8.31535 21 8.5142C21 8.71305 20.9585 8.90995 20.8778 9.09366C20.797 9.27737 20.6787 9.4443 20.5296 9.5849L13.136 16.5559C12.9869 16.6966 12.8099 16.8083 12.6151 16.8846C12.4202 16.9608 12.2113 17 12.0003 17C11.7894 17 11.5805 16.9608 11.3856 16.8846C11.1908 16.8083 11.0137 16.6966 10.8647 16.5559L3.47107 9.5849C3.32174 9.4444 3.20327 9.27751 3.12244 9.09378C3.04161 8.91006 3 8.71311 3 8.5142C3 8.3153 3.04161 8.11834 3.12244 7.93462C3.20327 7.75089 3.32174 7.584 3.47107 7.4435C4.09929 6.86638 5.13021 6.8512 5.75843 7.4435Z" fill="#606C77"/></svg>
+            </div>
+            <div class='options' data-type='multi'>
+
+              <div class='categories'>
+                <?php foreach ($items as $category): ?>
+                <div class='category H5' data-category-id='<?php echo $category['id'] ?>'><?php echo $category['name'] ?></div>
                 <?php endforeach; ?>
               </div>
-            </div> 
+
+              <?php foreach ($items as $category): ?>
+              <div class='professions' data-category-id='<?php echo $category['id']; ?>'>
+                <div class='back-to-categories body-3'>Back to Profession Type</div>
+                <div class='item H5'><?php echo $category['name']; ?></div>
+                <div class='list body-2'>
+                  <?php foreach ($category['professions'] as $profession): ?>
+                  <div class='item profession-name' data-profession-id='<?php echo $profession['id']; ?>'><?php echo $profession['name']; ?></div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              <?php endforeach; ?>
+              
+              <?php
+              foreach ($items as $category):
+                foreach ($category['professions'] as $profession):
+              ?>
+              <div class='specialities' data-profession-id='<?php echo $profession['id'] ?>'>
+                <div class='back-to-professions body-3' data-category-id='<?php echo $category['id'] ?>'>Back to <?php echo $category['name'] ?> Professions</div>
+                <div class='item H5'><?php echo $category['name'] ?></div>
+                <div class='list'>
+                  <?php foreach ($profession['specialties'] as $specialty): ?>
+                  <label class='item checkbox' data-value='<?php echo $specialty['id'] ?>'>
+                    <p><?php echo $specialty['name']; ?></p>
+                    <?php 
+                    $isChecked = '';
+                    $condition = in_array(intval($specialty['id']), $currentSpecialities);
+                    if ($condition) {
+                      $isChecked = 'checked="true"';
+                    }
+                    ?>
+                    <input type='checkbox' <?php echo $isChecked; ?> />
+                  </label>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              <?php endforeach;
+            endforeach; ?>
+
+            </div>
+          </div>
           </div>
 
           <div class='input'>
             <div class='dropdown'>
-              <input class='hidden' type='hidden' name='location' value='' />
-              <div class='select'>
-                <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.6"><path d="M14 2.75C16.5859 2.75 19.0658 3.77723 20.8943 5.60571C22.7228 7.43419 23.75 9.91414 23.75 12.5C23.75 16.62 20.855 21.11 15.14 26.018C14.8222 26.291 14.4171 26.4409 13.9981 26.4405C13.5792 26.4402 13.1743 26.2895 12.857 26.016L12.479 25.688C7.017 20.908 4.25 16.528 4.25 12.5C4.25 9.91414 5.27723 7.43419 7.10571 5.60571C8.93419 3.77723 11.4141 2.75 14 2.75ZM14 4.25C11.812 4.25 9.71354 5.11919 8.16637 6.66637C6.61919 8.21354 5.75 10.312 5.75 12.5C5.75 16.002 8.298 20.037 13.464 24.557L13.837 24.88C13.8824 24.919 13.9402 24.9404 14 24.9404C14.0598 24.9404 14.1176 24.919 14.163 24.88C19.579 20.228 22.25 16.085 22.25 12.5C22.25 11.4166 22.0366 10.3438 21.622 9.34286C21.2074 8.34193 20.5997 7.43245 19.8336 6.66637C19.0675 5.90029 18.1581 5.2926 17.1571 4.87799C16.1562 4.46339 15.0834 4.25 14 4.25ZM14 8.75C14.9946 8.75 15.9484 9.14509 16.6517 9.84835C17.3549 10.5516 17.75 11.5054 17.75 12.5C17.75 13.4946 17.3549 14.4484 16.6517 15.1517C15.9484 15.8549 14.9946 16.25 14 16.25C13.0054 16.25 12.0516 15.8549 11.3483 15.1517C10.6451 14.4484 10.25 13.4946 10.25 12.5C10.25 11.5054 10.6451 10.5516 11.3483 9.84835C12.0516 9.14509 13.0054 8.75 14 8.75ZM14 10.25C13.4033 10.25 12.831 10.4871 12.409 10.909C11.9871 11.331 11.75 11.9033 11.75 12.5C11.75 13.0967 11.9871 13.669 12.409 14.091C12.831 14.5129 13.4033 14.75 14 14.75C14.5967 14.75 15.169 14.5129 15.591 14.091C16.0129 13.669 16.25 13.0967 16.25 12.5C16.25 11.9033 16.0129 11.331 15.591 10.909C15.169 10.4871 14.5967 10.25 14 10.25Z" fill="#606C77"/></g></svg>
-                <input id='first-location-input' type='text' readonly placeholder='Location' />
+              <input class='hidden' type='hidden' name='location' value='<?php echo $statesFromParam; ?>' />
+              <div class='select' data-placeholder='Location'>
+                <div class='values'>
+                  <div class='placeholder'>Location</div>
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.5" d="M5.75843 7.4435L12.0084 13.3362L18.2584 7.4435C18.4075 7.30289 18.5845 7.19136 18.7794 7.11526C18.9742 7.03917 19.1831 7 19.394 7C19.6049 7 19.8137 7.03917 20.0086 7.11526C20.2034 7.19136 20.3805 7.30289 20.5296 7.4435C20.6787 7.58411 20.797 7.75103 20.8778 7.93474C20.9585 8.11845 21 8.31535 21 8.5142C21 8.71305 20.9585 8.90995 20.8778 9.09366C20.797 9.27737 20.6787 9.4443 20.5296 9.5849L13.136 16.5559C12.9869 16.6966 12.8099 16.8083 12.6151 16.8846C12.4202 16.9608 12.2113 17 12.0003 17C11.7894 17 11.5805 16.9608 11.3856 16.8846C11.1908 16.8083 11.0137 16.6966 10.8647 16.5559L3.47107 9.5849C3.32174 9.4444 3.20327 9.27751 3.12244 9.09378C3.04161 8.91006 3 8.71311 3 8.5142C3 8.3153 3.04161 8.11834 3.12244 7.93462C3.20327 7.75089 3.32174 7.584 3.47107 7.4435C4.09929 6.86638 5.13021 6.8512 5.75843 7.4435Z" fill="#606C77"/></svg>
               </div>
               <div class='options'>
-                <?php foreach ($states as $state): ?>
-                <div class='option' data-value='<?php echo $state['id']; ?>'><?php echo $state['state_name']; ?></div>
+                <div class='states-title H5'>STATES</div>
+                <?php foreach ($states as $state) : ?>
+                <label class='checkbox' data-value='<?php echo $state['id']; ?>'>
+                  <p><?php echo $state['state_name']; ?></p>
+                  <?php 
+                  $isChecked = '';
+                  $condition = in_array(intval($state['id']), $currentStates);
+                  if ($condition) {
+                    $isChecked = 'checked="true"';
+                  }
+                  ?>
+                  <input type='checkbox' <?php echo $isChecked; ?> />
+                </label>
                 <?php endforeach; ?>
               </div>
             </div>
@@ -520,7 +615,6 @@ document.querySelector('#eleventh-specialty').addEventListener('change', (e) => 
 
 <script type='text/javascript'>
 document.querySelector('#first-clear').addEventListener('click', () => {
-  console.log('wasd');
   const prof = document.querySelector('#first-profession-input');
   const location = document.querySelector('#first-location-input');
 
